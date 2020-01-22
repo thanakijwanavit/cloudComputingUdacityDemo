@@ -1,0 +1,1 @@
+aws cloudformation create-stack --stack-name exampleSiteUdacity --template-body file://formation.yml
