@@ -34,11 +34,9 @@ Resources:
     - BucketPolicy
     Properties:
       DistributionConfig:
+        DefaultRootObject: index.html
         Comment: 'Cloudfront Distribution pointing ALB Origin'
         Origins:
-          #          - DomainName: !GetAtt
-          #              - ExampleSiteBucket
-          #              - DomainName
           - DomainName: udacity-test-site-example.s3-website-ap-southeast-1.amazonaws.com
             OriginPath: ""
             Id: testUdacitySiteCloudfront
@@ -46,11 +44,6 @@ Resources:
               HTTPPort: '80'
               HTTPSPort: '443'
               OriginProtocolPolicy: http-only
-            #S3OriginConfig:
-              #OriginAccessIdentity: udacity-test-site-example.s3.amazonaws.com
-              #              OriginAccessIdentity: !GetAtt
-              #                - ExampleSiteBucket
-              #                - DomainName
         Enabled: True
         DefaultCacheBehavior:
           AllowedMethods:
