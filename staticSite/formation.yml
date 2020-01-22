@@ -1,8 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Project hosting static site udacity
 Resources:
   ExampleSiteBucket:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl : PublicRead
+      BucketName: udacity-test-site-example
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
@@ -23,6 +26,43 @@ Resources:
                 - !Ref ExampleSiteBucket
                 - /*
       Bucket: !Ref ExampleSiteBucket
+
+  CloudFrontDistribution:
+    Type: 'AWS::CloudFront::Distribution'
+    DependsOn:
+    - ExampleSiteBucket
+    - BucketPolicy
+    Properties:
+      DistributionConfig:
+        Comment: 'Cloudfront Distribution pointing ALB Origin'
+        Origins:
+          #          - DomainName: !GetAtt
+          #              - ExampleSiteBucket
+          #              - DomainName
+          - DomainName: udacity-test-site-example.s3-website-ap-southeast-1.amazonaws.com
+            OriginPath: ""
+            Id: testUdacitySiteCloudfront
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+            #S3OriginConfig:
+              #OriginAccessIdentity: udacity-test-site-example.s3.amazonaws.com
+              #              OriginAccessIdentity: !GetAtt
+              #                - ExampleSiteBucket
+              #                - DomainName
+        Enabled: True
+        DefaultCacheBehavior:
+          AllowedMethods:
+          - GET
+          - HEAD
+          TargetOriginId: testUdacitySiteCloudfront
+          ViewerProtocolPolicy: allow-all
+          ForwardedValues:
+              QueryString: 'true'
+              Cookies:
+                Forward: none
+
 Outputs:
   WebsiteURL:
     Value: !GetAtt
@@ -37,3 +77,8 @@ Outputs:
           - ExampleSiteBucket
           - DomainName
     Description: Name of S3 bucket to hold website content
+  CloudFrontURL:
+    Value: !GetAtt
+      - CloudFrontDistribution
+      - DomainName
+    Description: Cloud formation url
