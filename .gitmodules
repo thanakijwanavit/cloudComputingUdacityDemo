@@ -4,3 +4,6 @@
 [submodule "udacity-c2-frontend"]
 	path = udacity-c2-frontend
 	url = https://github.com/grutt/udacity-c2-frontend
+[submodule "nd9990-c3-microservices-v1"]
+	path = nd9990-c3-microservices-v1
+	url = https://github.com/udacity/nd9990-c3-microservices-v1
