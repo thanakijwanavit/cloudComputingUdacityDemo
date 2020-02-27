@@ -1,0 +1,6 @@
+[submodule "cloud-developer"]
+	path = cloud-developer
+	url = https://github.com/udacity/cloud-developer.git
+[submodule "udacity-c2-frontend"]
+	path = udacity-c2-frontend
+	url = https://github.com/grutt/udacity-c2-frontend
